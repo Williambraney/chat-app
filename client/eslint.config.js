@@ -5,7 +5,10 @@ import { defineConfig } from 'eslint/config';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 
 export default defineConfig([
-    { files : [ '**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}' ], languageOptions : { globals : globals.browser } },
+    {
+        files : [ '**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}' ],
+        languageOptions : { globals : globals.browser }
+    },
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
     {
@@ -13,8 +16,8 @@ export default defineConfig([
             'react-hooks' : pluginReactHooks
         },
         rules : {
-            'indent' : [ 'warn', 4 ],
-            'quotes' : [ 'warn', 'single' ],
+            indent : [ 'warn', 4 ],
+            quotes : [ 'warn', 'single' ],
             'jsx-quotes' : [ 'error', 'prefer-single' ],
             'react/jsx-indent-props' : [ 2, 'first' ],
             'react/react-in-jsx-scope' : 'off',
@@ -25,16 +28,16 @@ export default defineConfig([
             'react/jsx-curly-spacing' : [ 'error', { when : 'always', children : true } ],
             'react-hooks/rules-of-hooks' : 'error', // Checks rules of Hooks
             'react-hooks/exhaustive-deps' : 'warn', // Checks effect dependencies
-        // 'type-annotation-spacing': ['error', {
-        //     before: false,
-        //     after: true,
-        //     overrides: {
-        //         colon: {
-        //             before: false,
-        //             after: true
-        //         }
-        //     }
-        // }]
+            // 'type-annotation-spacing': ['error', {
+            //     before: false,
+            //     after: true,
+            //     overrides: {
+            //         colon: {
+            //             before: false,
+            //             after: true
+            //         }
+            //     }
+            // }]
         }
     }
 ]);
