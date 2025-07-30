@@ -3,8 +3,23 @@ import { Block, Blocks } from '../components/layout';
 import Header from '../components/ui/Header';
 import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
+import { useCallback, useState } from 'react';
 
 export default function Login() {
+
+    const [ userName, setUserName ] = useState<string>('');
+    const [ password, setPassword ] = useState<string>('');
+
+    const handleSubmit = useCallback(() => {
+
+        //sendDetails({
+        //    userName,
+        //    password
+        //});
+
+        console.log('Login submitted with:', { userName,
+
+    }, [ userName, password ]);
 
     return (
         <Blocks
@@ -42,6 +57,7 @@ export default function Login() {
             <Block>
                 <Button
                     variant = 'outlined'
+                    onClick = { handleSubmit }
                 >
                     Login
                 </Button>
