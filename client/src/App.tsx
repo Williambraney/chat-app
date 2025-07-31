@@ -11,7 +11,7 @@ const Router = createBrowserRouter([
                 index : true,
                 element : <Login />,
             },
-            // { path : 'sessions', element : <SessionsPage /> },
+            { path : 'register', element : <Login /> },
             // { path : 'sessions/:id', element : <SessionPage /> },
         ],
     },

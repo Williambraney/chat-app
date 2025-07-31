@@ -7,7 +7,8 @@ export default function Root() {
         <Blocks
             sx = { {
                 flexDirection : 'column',
-                minWidth : '100vw'
+                minWidth : '100vw',
+                backgroundColor : 'background',
             } }
         >
             { /* Add your layout components here, like Header, Footer, etc. */ }

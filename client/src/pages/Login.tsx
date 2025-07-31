@@ -105,6 +105,28 @@ export default function Login() {
                     Login
                 </Button>
             </Block>
+            <Block>
+                <Blocks
+                    sx = {{
+                        flexDirection : 'column',
+                        alignItems : 'center',
+                        justifyContent : 'center',
+                        gap : 1,
+                        width : '100%',
+                    }}
+                >
+                    <Block>
+                        <Text>
+                            Don't have an account? <a href="/register">Register</a>
+                        </Text>
+                    </Block>
+                    <Block>
+                        <Text>
+                            Forgot your password? <a href="/reset-password">Reset it</a>
+                        </Text>
+                    </Block>
+                </Blocks>
+            </Block>
         </Blocks>
     );
 
