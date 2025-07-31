@@ -3,23 +3,61 @@ import { Block, Blocks } from '../components/layout';
 import Header from '../components/ui/Header';
 import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type ChangeEvent } from 'react';
+
+type LoginRequest = {
+    userName: string;
+    password: string;
+}
+
+type LoginResponse = {
+    message: string;    
+}
 
 export default function Login() {
 
     const [ userName, setUserName ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
 
-    const handleSubmit = useCallback(() => {
+    const handleSubmit = useCallback( async () => {
 
-        //sendDetails({
-        //    userName,
-        //    password
-        //});
+        try {
 
-        console.log('Login submitted with:', { userName,
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userName, password } as LoginRequest )
+            });
+
+            const data: LoginResponse = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || 'Login failed');
+            }
+
+            console.log(data.message);
+
+        } catch ( error ) {
+
+            console.error('Login error:', error);
+            alert('Login failed. Please try again.');
+            return;
+
+        }
+
+        console.log('Login submitted with:', { userName, password });
 
     }, [ userName, password ]);
+
+    const handleUserNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setUserName(e.target.value);
+    }, []);
+
+    const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    }, []);
 
     return (
         <Blocks
@@ -46,12 +84,15 @@ export default function Login() {
             <Block>
                 <TextField 
                     label = 'Username'
-
+                    value = { userName }
+                    onChange = { handleUserNameChange }
                 />
             </Block>
             <Block>
                 <TextField 
                     label = 'Password'
+                    value = { password }
+                    onChange = { handlePasswordChange }
                 />
             </Block>
             <Block>
