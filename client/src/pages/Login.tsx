@@ -23,6 +23,8 @@ export default function Login() {
 
         try {
 
+            console.log('Submitting login with:', { userName, password });
+
             const res = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -30,7 +32,7 @@ export default function Login() {
                 },
                 body: JSON.stringify({ userName, password } as LoginRequest )
             });
-
+            console.log('Response:', res);
             const data: LoginResponse = await res.json();
 
             if (!res.ok) {

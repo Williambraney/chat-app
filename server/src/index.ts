@@ -55,6 +55,8 @@ app.post( '/api/login', ( request : Request, response : Response ) => {
 
   const result = LoginSchema.safeParse(request.body);
 
+  console.log('Login attempt:', request.body);  
+
   if (!result.success) {
     return response.status(400).json({ message: 'Invalid request body' });
   }
