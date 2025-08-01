@@ -3,28 +3,30 @@ import { Block, Blocks } from '../components/layout';
 import Header from '../components/ui/Header';
 import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
-import { useCallback, useState, type ChangeEvent } from 'react';
+import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
+import DatePicker from 'components/ui/DatePicker';
+import { EmojiPicker } from 'components/ui/EmojiPicker';
 
-type RegisterRequest = {
+interface RegisterRequest {
     userName: string;
     email: string;
     avatar?: string;
-    dateOfBirth?: string;
+    dateOfBirth?: Date | null;
     password: string;
 }
 
-type RegisterResponse = {
+interface RegisterResponse {
     message: string;
 }
 
-export default function Register() {
+export default function Register(): JSX.Element {
 
     const [ userName, setUserName ] = useState<string>('');
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
     const [ confirmPassword, setConfirmPassword ] = useState<string>('');
     const [ avatar, setAvatar ] = useState<string>('');
-    const [ dateOfBirth, setDateOfBirth ] = useState<string>('');
+    const [ dateOfBirth, setDateOfBirth ] = useState<Date | null>(null);
 
     const handleSubmit = useCallback( async () => {
 
@@ -39,11 +41,11 @@ export default function Register() {
         try {
 
             const res = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
                 },
-                body: JSON.stringify(registerData)
+                body : JSON.stringify(registerData)
             });
             console.log('Response:', res);
             const data: RegisterResponse = await res.json();
@@ -119,10 +121,15 @@ export default function Register() {
                 />
             </Block>
             <Block>
-                Date of birth - 
+                <DatePicker
+                    label = 'Date of Birth'
+                    value = { dateOfBirth }
+                    onChange = { date => setDateOfBirth(date) }
+                />
             </Block>
             <Block>
                 Avatar - 
+                <EmojiPicker />
             </Block>
             <Block>
                 <TextField 

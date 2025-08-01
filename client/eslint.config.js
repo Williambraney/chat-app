@@ -28,6 +28,8 @@ export default defineConfig([
             'react/jsx-curly-spacing' : [ 'error', { when : 'always', children : true } ],
             'react-hooks/rules-of-hooks' : 'error', // Checks rules of Hooks
             'react-hooks/exhaustive-deps' : 'warn', // Checks effect dependencies
+            'react/jsx-equals-spacing' : [ 'error', 'always' ],
+            'space-infix-ops' : [ 'error' ],
             // Require return types
             '@typescript-eslint/explicit-function-return-type' : [ 'warn', {
                 allowExpressions : false,
@@ -38,7 +40,6 @@ export default defineConfig([
 
             // Other helpful TS rules
             '@typescript-eslint/no-explicit-any' : 'warn',
-            '@typescript-eslint/strict-boolean-expressions' : 'warn',
             '@typescript-eslint/consistent-type-definitions' : [ 'warn', 'interface' ],
             // 'type-annotation-spacing': ['error', {
             //     before: false,
