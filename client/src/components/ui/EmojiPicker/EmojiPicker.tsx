@@ -1,8 +1,20 @@
 import type { JSX } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 
-export default function EmojiPickerBasic(): JSX.Element {
+interface EmojiPickerBasicProps {
+    open: boolean;
+    onEmojiClick: (emoji: { emoji: string }) => void;
+}
+
+export default function EmojiPickerBasic({ 
+    open, 
+    onEmojiClick
+
+}: EmojiPickerBasicProps): JSX.Element {
     return (
-        <EmojiPicker />
+        <EmojiPicker
+            open = { open }
+            onEmojiClick = { onEmojiClick }
+        />
     );
 }

@@ -6,6 +6,7 @@ import TextField from '../components/ui/TextField';
 import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
 import DatePicker from 'components/ui/DatePicker';
 import { EmojiPicker } from 'components/ui/EmojiPicker';
+import Avatar from 'components/ui/Avatar/Avatar';
 
 interface RegisterRequest {
     userName: string;
@@ -27,6 +28,7 @@ export default function Register(): JSX.Element {
     const [ confirmPassword, setConfirmPassword ] = useState<string>('');
     const [ avatar, setAvatar ] = useState<string>('');
     const [ dateOfBirth, setDateOfBirth ] = useState<Date | null>(null);
+    const [ emojiPickerOpen, setEmojiPickerOpen ] = useState<boolean>(false);
 
     const handleSubmit = useCallback( async () => {
 
@@ -68,21 +70,27 @@ export default function Register(): JSX.Element {
 
     }, [ userName, email, password, avatar, dateOfBirth ]);
 
-    const handleUserNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setUserName(e.target.value);
+    const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>, name: string) => {
+        const { value } = e.target;
+        switch (name) {
+        case 'userName':
+            setUserName(value);
+            break;
+        case 'email':
+            setEmail(value);
+            break;
+        case 'password':
+            setPassword(value);
+            break;
+        case 'confirmPassword':
+            setConfirmPassword(value);
+            break;
+        }
     }, []);
 
-    const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    }, []);
-
-    const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-    }, []);
-
-    const handleConfirmPasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(e.target.value);
-    }, []);
+    const handleEmojiOpen = useCallback((): void => {
+        setEmojiPickerOpen(!emojiPickerOpen);
+    }, [ emojiPickerOpen ]);
 
     return (
         <Blocks
@@ -110,14 +118,14 @@ export default function Register(): JSX.Element {
                 <TextField 
                     label = 'Username'
                     value = { userName }
-                    onChange = { handleUserNameChange }
+                    onChange = { e => handleInputChange(e, 'userName') }
                 />
             </Block>
             <Block>
                 <TextField 
                     label = 'Email'
                     value = { email }
-                    onChange = { handleEmailChange }
+                    onChange = { e => handleInputChange(e, 'email') }
                 />
             </Block>
             <Block>
@@ -129,20 +137,35 @@ export default function Register(): JSX.Element {
             </Block>
             <Block>
                 Avatar - 
-                <EmojiPicker />
+                <Button
+                    variant = 'outlined'
+                    onClick = { handleEmojiOpen }
+                >
+                    Choose avatar
+                </Button>
+                <Avatar>
+                    { avatar }
+                </Avatar>
+                <EmojiPicker 
+                    open = { emojiPickerOpen }
+                    onEmojiClick = { e => {
+                        setAvatar(e.emoji);
+                        setEmojiPickerOpen(false);
+                    } }
+                />
             </Block>
             <Block>
                 <TextField 
                     label = 'Password'
                     value = { password }
-                    onChange = { handlePasswordChange }
+                    onChange = { e => handleInputChange(e, 'password') }
                 />
             </Block>
             <Block>
                 <TextField 
                     label = 'Confirm password'
                     value = { confirmPassword }
-                    onChange = { handleConfirmPasswordChange }
+                    onChange = { e => handleInputChange(e, 'confirmPassword') }
                 />
             </Block>
             <Block>
