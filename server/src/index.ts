@@ -51,6 +51,13 @@ app.get('/ping', (_, res) => {
   res.send('pong');
 });
 
+app.post( '/api/register', ( request : Request, response : Response ) => {
+
+  const result = LoginSchema.safeParse(request.body);
+
+  console.log('Register attempt:', request.body);
+});
+
 app.post( '/api/login', ( request : Request, response : Response ) => {
 
   const result = LoginSchema.safeParse(request.body);

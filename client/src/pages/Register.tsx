@@ -5,45 +5,66 @@ import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
 import { useCallback, useState, type ChangeEvent } from 'react';
 
-type LoginRequest = {
+type RegisterRequest = {
     userName: string;
+    email: string;
+    avatar?: string;
+    dateOfBirth?: string;
     password: string;
 }
 
-type LoginResponse = {
-    message: string;    
+type RegisterResponse = {
+    message: string;
 }
 
-export default function Login() {
+export default function Register() {
 
     const [ userName, setUserName ] = useState<string>('');
+    const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
+    const [ confirmPassword, setConfirmPassword ] = useState<string>('');
+    const [ avatar, setAvatar ] = useState<string>('');
+    const [ dateOfBirth, setDateOfBirth ] = useState<string>('');
 
     const handleSubmit = useCallback( async () => {
 
+        const registerData = {
+            userName,
+            email,
+            password,
+            avatar,
+            dateOfBirth
+        } as RegisterRequest;
+
         try {
 
-            const res = await fetch('/api/login', {
+            const res = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userName, password } as LoginRequest )
+                body: JSON.stringify(registerData)
             });
-            const data: LoginResponse = await res.json();
+            console.log('Response:', res);
+            const data: RegisterResponse = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || 'Login failed');
+                throw new Error(data.message || 'Register failed');
             }
+
+            console.log(data.message);
 
         } catch ( error ) {
 
-            alert('Login failed. Please try again.');
+            console.error('Register error:', error);
+            alert('Register failed. Please try again.');
             return;
 
         }
 
-    }, [ userName, password ]);
+        console.log('Register submitted with:', { userName, email, password, avatar, dateOfBirth });
+
+    }, [ userName, email, password, avatar, dateOfBirth ]);
 
     const handleUserNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
@@ -51,6 +72,14 @@ export default function Login() {
 
     const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
+    }, []);
+
+    const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    }, []);
+
+    const handleConfirmPasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(e.target.value);
     }, []);
 
     return (
@@ -67,7 +96,7 @@ export default function Login() {
         >
             <Block>
                 <Header>
-                    Login
+                    Register
                 </Header>
             </Block>
             <Block>
@@ -84,9 +113,29 @@ export default function Login() {
             </Block>
             <Block>
                 <TextField 
+                    label = 'Email'
+                    value = { email }
+                    onChange = { handleEmailChange }
+                />
+            </Block>
+            <Block>
+                Date of birth - 
+            </Block>
+            <Block>
+                Avatar - 
+            </Block>
+            <Block>
+                <TextField 
                     label = 'Password'
                     value = { password }
                     onChange = { handlePasswordChange }
+                />
+            </Block>
+            <Block>
+                <TextField 
+                    label = 'Confirm password'
+                    value = { confirmPassword }
+                    onChange = { handleConfirmPasswordChange }
                 />
             </Block>
             <Block>
@@ -94,30 +143,8 @@ export default function Login() {
                     variant = 'outlined'
                     onClick = { handleSubmit }
                 >
-                    Login
+                    Register
                 </Button>
-            </Block>
-            <Block>
-                <Blocks
-                    sx = {{
-                        flexDirection : 'column',
-                        alignItems : 'center',
-                        justifyContent : 'center',
-                        gap : 1,
-                        width : '100%',
-                    }}
-                >
-                    <Block>
-                        <Text>
-                            Don't have an account? <a href="/register">Register</a>
-                        </Text>
-                    </Block>
-                    <Block>
-                        <Text>
-                            Forgot your password? <a href="/reset-password">Reset it</a>
-                        </Text>
-                    </Block>
-                </Blocks>
             </Block>
         </Blocks>
     );
