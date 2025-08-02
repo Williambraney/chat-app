@@ -3,18 +3,18 @@ import { Block, Blocks } from '../components/layout';
 import Header from '../components/ui/Header';
 import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
-import { useCallback, useState, type ChangeEvent } from 'react';
+import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
 
-type LoginRequest = {
+interface LoginRequest {
     userName: string;
     password: string;
 }
 
-type LoginResponse = {
+interface LoginResponse {
     message: string;    
 }
 
-export default function Login() {
+export default function Login(): JSX.Element {
 
     const [ userName, setUserName ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
@@ -24,11 +24,11 @@ export default function Login() {
         try {
 
             const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
                 },
-                body: JSON.stringify({ userName, password } as LoginRequest )
+                body : JSON.stringify({ userName, password } as LoginRequest )
             });
             const data: LoginResponse = await res.json();
 
@@ -39,6 +39,7 @@ export default function Login() {
         } catch ( error ) {
 
             alert('Login failed. Please try again.');
+            console.log('Login error:', error);
             return;
 
         }
@@ -99,22 +100,22 @@ export default function Login() {
             </Block>
             <Block>
                 <Blocks
-                    sx = {{
+                    sx = { {
                         flexDirection : 'column',
                         alignItems : 'center',
                         justifyContent : 'center',
                         gap : 1,
                         width : '100%',
-                    }}
+                    } }
                 >
                     <Block>
                         <Text>
-                            Don't have an account? <a href="/register">Register</a>
+                            Don't have an account? <a href = '/register'>Register</a>
                         </Text>
                     </Block>
                     <Block>
                         <Text>
-                            Forgot your password? <a href="/reset-password">Reset it</a>
+                            Forgot your password? <a href = '/resetPassword'>Reset it</a>
                         </Text>
                     </Block>
                 </Blocks>

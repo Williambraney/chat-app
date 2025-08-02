@@ -5,6 +5,7 @@ import Register from './pages/Register.tsx';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import type { JSX } from 'react';
+import ResetPassword from './pages/ResetPassword.tsx';
 
 const Router = createBrowserRouter([
     {
@@ -16,6 +17,7 @@ const Router = createBrowserRouter([
                 element : <Login />,
             },
             { path : 'register', element : <Register /> },
+            { path : 'resetPassword', element : <ResetPassword /> },
             // { path : 'sessions/:id', element : <SessionPage /> },
         ],
     },
