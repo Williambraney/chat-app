@@ -1,17 +1,22 @@
-import { Typography } from '@mui/material';
-import { type ReactNode } from 'react';
+import { Typography, type SxProps, type Theme } from '@mui/material';
+import { type JSX, type ReactNode } from 'react';
 
-type HeaderProps = {
+interface HeaderProps {
   children: ReactNode;
-};
+  sx?: SxProps<Theme>; // ✅ Accepts any valid MUI sx style
+}
 
 export default function Header({ 
+    sx,
     children 
-} : HeaderProps ) {
+} : HeaderProps ): JSX.Element {
 
     return (
         <Typography 
             variant = 'h1'
+            sx = { {
+                ...sx
+            } }
         >
             { children }
         </Typography>

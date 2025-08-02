@@ -6,6 +6,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import type { JSX } from 'react';
 import ResetPassword from './pages/ResetPassword.tsx';
+import Dashboard from './pages/Dashboard.tsx';
+import RootLayout from './routes/RootLayout.tsx';
 
 const Router = createBrowserRouter([
     {
@@ -17,10 +19,20 @@ const Router = createBrowserRouter([
                 element : <Login />,
             },
             { path : 'register', element : <Register /> },
-            { path : 'resetPassword', element : <ResetPassword /> },
-            // { path : 'sessions/:id', element : <SessionPage /> },
-        ],
+            { path : 'resetPassword', element : <ResetPassword /> }
+        ]
     },
+    {
+        path : '/app',
+        element : <RootLayout />,
+        children : [
+            {
+                index : true,
+                element : <Dashboard />,
+            },
+            { path : 'dashboard', element : <Dashboard /> }
+        ]
+    }
 ]);
 
 function App(): JSX.Element {

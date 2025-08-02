@@ -118,6 +118,11 @@ export default function Login(): JSX.Element {
                             Forgot your password? <a href = '/resetPassword'>Reset it</a>
                         </Text>
                     </Block>
+                    <Block>
+                        <Text>
+                            Bypass login for testing: <a href = '/app'>Bypass</a>
+                        </Text>
+                    </Block>
                 </Blocks>
             </Block>
         </Blocks>
