@@ -6,7 +6,8 @@ export default function AppHeader(): JSX.Element {
         <Header
             sx = { {
                 fontSize : '1.5rem',
-                padding : '1rem'
+                padding : '1rem',
+                // width : '100%',
             } }
         >
             Chat app

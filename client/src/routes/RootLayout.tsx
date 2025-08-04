@@ -14,7 +14,7 @@ export default function RootLayout(): JSX.Element {
                 <Blocks
                     sx = { {
                         flexDirection : 'column',
-                        // width : '90vw',
+                        width : '90vw',
                         minHeight : '100vh',
                         backgroundColor : 'background',
                     } }

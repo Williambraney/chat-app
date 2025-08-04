@@ -4,7 +4,7 @@ import NavList from './NavList';
 import NavListItem from './NavListItem';
 import LightDarkMode from './LightDarkMode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments, faGear, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faComments, faGear, faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavBar(): JSX.Element {
     return (
@@ -18,6 +18,13 @@ export default function NavBar(): JSX.Element {
         >
             <Block>
                 <NavList>
+                    <NavListItem
+                        to = 'dashboard'
+                    >
+                        <FontAwesomeIcon 
+                            icon = { faChartLine } 
+                        />
+                    </NavListItem>
                     <NavListItem
                         to = 'settings'
                     >
