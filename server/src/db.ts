@@ -7,3 +7,5 @@ export const pool = new Pool({
   password: 'mysecretpassword', // your docker postgres password
   port: 5432,
 });
+
+export default pool;

@@ -1,17 +1,10 @@
 import express, { Request, Response } from 'express';
 import http from 'http';
+import bcrypt from 'bcrypt';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { z } from 'zod';
-
-type LoginRequestBody = {
-  userName: string;
-  password: string;
-}
-
-type LoginResponseBody = {
-  message: string;
-}
+import pool from './db';
 
 const app = express();
 const server = http.createServer(app);
@@ -31,6 +24,8 @@ const LoginSchema = z.object({
   userName: z.string(),
   password: z.string()
 });
+
+type LoginData = z.infer<typeof LoginSchema>;
 
 io.on('connection', (socket) => {
   console.log(`🔌 User connected: ${socket.id}`);
@@ -58,25 +53,43 @@ app.post( '/api/register', ( request : Request, response : Response ) => {
   console.log('Register attempt:', request.body);
 });
 
-app.post( '/api/login', ( request : Request, response : Response ) => {
+app.post( '/api/login', async ( request : Request, response : Response ) => {
 
   const result = LoginSchema.safeParse(request.body);
-
-  console.log('Login attempt:', request.body);  
 
   if (!result.success) {
     return response.status(400).json({ message: 'Invalid request body' });
   }
 
-  const { userName, password } = result.data;
+  const { userName, password }: LoginData = result.data;
 
-  if (userName === 'test' && password === 'password') {
-    return response.status(200).json({ message: 'Login successful' });
+  try {
+
+    // Get users by userName
+    const dbResult = await pool.query('SELECT * FROM users WHERE userName = $1', [ userName ] );
+
+    const user = dbResult.rows[0];
+
+    if( !user ){
+      return response.status(401).json({ message: 'User not found' });
+    }
+
+    // Compare hashed password
+    const isMatch = await bcrypt.compare( password, user.password_hash );
+
+    if (!isMatch) {
+      return response.status(401).json({ message: 'Invalid password' });
+    }
+
+    // Successful login
+    return response.status(200).json({ message: 'Login successful', userId: user.id });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    return response.status(500).json({ message: 'Internal server error' });
   }
 
-  return response.status(401).json({ message: 'Invalid credentials' });
-
-} )
+})
 
 server.listen(3001, () => {
   console.log('✅ Server running on http://localhost:3001');
