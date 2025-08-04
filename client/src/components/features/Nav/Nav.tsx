@@ -19,21 +19,21 @@ export default function NavBar(): JSX.Element {
             <Block>
                 <NavList>
                     <NavListItem
-                        to = '/settings'
+                        to = 'settings'
                     >
                         <FontAwesomeIcon 
                             icon = { faGear } 
                         />
                     </NavListItem>
                     <NavListItem
-                        to = '/chats'
+                        to = 'chats'
                     >
                         <FontAwesomeIcon 
                             icon = { faComments } 
                         />
                     </NavListItem>
                     <NavListItem
-                        to = '/starred'
+                        to = 'starred'
                     >
                         <FontAwesomeIcon 
                             icon = { faStar } 

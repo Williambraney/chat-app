@@ -13,7 +13,9 @@ export default function NavListItem({
     to
 }: NavListItemProps ): JSX.Element {
     return (
-        <NavLink to = { to }>
+        <NavLink 
+            to = { to }
+        >
             <div>{ children }</div>
         </NavLink>
     );
