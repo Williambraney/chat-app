@@ -1,5 +1,5 @@
 import AppHeader from 'components/common/AppHeader';
-import NavBar from 'components/common/NavBar';
+import NavBar from 'components/features/Nav/Nav';
 import { Block, Blocks } from 'components/layout';
 import type { JSX } from 'react';
 import { Outlet } from 'react-router-dom';
