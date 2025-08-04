@@ -6,18 +6,24 @@ import { Outlet } from 'react-router-dom';
 
 export default function RootLayout(): JSX.Element {
     return (
-        <Blocks
-            sx = { {
-                flexDirection : 'column',
-                minWidth : '100vw',
-                minHeight : '100vh',
-                backgroundColor : 'background',
-            } }
-        >
-            <AppHeader />
-            <NavBar />
+        <Blocks>
             <Block>
-                <Outlet />
+                <NavBar />
+            </Block>
+            <Block>
+                <Blocks
+                    sx = { {
+                        flexDirection : 'column',
+                        minWidth : '100vw',
+                        minHeight : '100vh',
+                        backgroundColor : 'background',
+                    } }
+                >
+                    <AppHeader />
+                    <Block>
+                        <Outlet />
+                    </Block>
+                </Blocks>
             </Block>
         </Blocks>
     );
