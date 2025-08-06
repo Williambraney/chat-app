@@ -32,6 +32,16 @@ export default function Register(): JSX.Element {
 
     const handleSubmit = useCallback( async () => {
 
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        if (!userName || !email || !password || !confirmPassword || !dateOfBirth) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
         const registerData = {
             userName,
             email,
@@ -68,7 +78,7 @@ export default function Register(): JSX.Element {
 
         console.log('Register submitted with:', { userName, email, password, avatar, dateOfBirth });
 
-    }, [ userName, email, password, avatar, dateOfBirth ]);
+    }, [ userName, email, password, avatar, dateOfBirth, confirmPassword ]);
 
     const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>, name: string) => {
         const { value } = e.target;
