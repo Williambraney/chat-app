@@ -7,6 +7,8 @@ import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
 import DatePicker from 'components/ui/DatePicker';
 import { EmojiPicker } from 'components/ui/EmojiPicker';
 import Avatar from 'components/ui/Avatar/Avatar';
+import { useNavigate } from 'react-router-dom';
+
 
 interface RegisterRequest {
     userName: string;
@@ -21,6 +23,8 @@ interface RegisterResponse {
 }
 
 export default function Register(): JSX.Element {
+
+    const navigate = useNavigate();
 
     const [ userName, setUserName ] = useState<string>('');
     const [ email, setEmail ] = useState<string>('');
@@ -59,26 +63,28 @@ export default function Register(): JSX.Element {
                 },
                 body : JSON.stringify(registerData)
             });
-            console.log('Response:', res);
             const data: RegisterResponse = await res.json();
-
+            
             if (!res.ok) {
                 throw new Error(data.message || 'Register failed');
             }
-
+            
+            console.log('Response:', res);
             console.log(data.message);
+
+            navigate( '/' );
 
         } catch ( error ) {
 
             console.error('Register error:', error);
-            alert('Register failed. Please try again.');
+            alert(error);
             return;
 
         }
 
         console.log('Register submitted with:', { userName, email, password, avatar, dateOfBirth });
 
-    }, [ userName, email, password, avatar, dateOfBirth, confirmPassword ]);
+    }, [ userName, email, password, avatar, dateOfBirth, confirmPassword, navigate ]);
 
     const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>, name: string) => {
         const { value } = e.target;

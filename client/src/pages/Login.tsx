@@ -4,6 +4,7 @@ import Header from '../components/ui/Header';
 import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
 import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginRequest {
     userName: string;
@@ -15,6 +16,8 @@ interface LoginResponse {
 }
 
 export default function Login(): JSX.Element {
+
+    const navigate = useNavigate();
 
     const [ userName, setUserName ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
@@ -36,6 +39,8 @@ export default function Login(): JSX.Element {
                 throw new Error(data.message || 'Login failed');
             }
 
+            navigate( '/app/dashboard')
+
         } catch ( error ) {
 
             alert('Login failed. Please try again.');
@@ -44,7 +49,7 @@ export default function Login(): JSX.Element {
 
         }
 
-    }, [ userName, password ]);
+    }, [ userName, password, navigate ]);
 
     const handleUserNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);

@@ -13,6 +13,7 @@ export default function Dashboard(): JSX.Element {
                 <Header>Dashboard</Header>
             </Block>
             <Block>
+                <Text> Hello </Text>
                 <Text>Welcome to your dashboard!</Text>
             </Block>
         </Blocks>
