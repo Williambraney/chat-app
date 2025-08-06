@@ -77,12 +77,13 @@ app.post( '/api/login', async ( request : Request, response : Response ) => {
     // Compare hashed password
     const isMatch = await bcrypt.compare( password, user.password_hash );
 
+    
     if (!isMatch) {
       return response.status(401).json({ message: 'Invalid password' });
     }
 
     // Successful login
-    return response.status(200).json({ message: 'Login successful', userId: user.id });
+    return response.status(200).json({ message: 'Login successful' });
 
   } catch (error) {
     console.error('Login error:', error);
