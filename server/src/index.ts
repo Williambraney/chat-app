@@ -25,7 +25,17 @@ const LoginSchema = z.object({
   password: z.string()
 });
 
+const RegisterSchema = z.object({
+  userName: z.string(),
+  email: z.email(),
+  password: z.string().min(3).max(100),
+  avatar: z.string().optional(),
+  dateOfBirth: z.coerce.date()
+});
+
 type LoginData = z.infer<typeof LoginSchema>;
+
+type RegisterData = z.infer<typeof RegisterSchema>;
 
 io.on('connection', (socket) => {
   console.log(`🔌 User connected: ${socket.id}`);
@@ -46,11 +56,42 @@ app.get('/ping', (_, res) => {
   res.send('pong');
 });
 
-app.post( '/api/register', ( request : Request, response : Response ) => {
+app.post( '/api/register', async( request : Request, response : Response ) => {
 
-  const result = LoginSchema.safeParse(request.body);
+  const result = RegisterSchema.safeParse(request.body);
 
-  console.log('Register attempt:', request.body);
+  if (!result.success) {
+    return response.status(400).json({ message: 'Invalid request body' });
+  }
+  const { userName, email, password, avatar, dateOfBirth }: RegisterData = result.data;
+
+  try {
+
+    // Check if user already exists
+    const userExists = await pool.query('SELECT * FROM users WHERE userName = $1 OR email = $2', [ userName, email ]);
+
+    if( userExists.rows.length > 0 ) {
+      return response.status(409).json({ message: 'User already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 8);
+
+    const normalisedEmail = email.toLowerCase();
+
+    // Insert new user into the database
+    await pool.query(
+      'INSERT INTO users (userName, email, password_hash, avatar, date_of_birth) VALUES ($1, $2, $3, $4, $5)',
+      [ userName, normalisedEmail, hashedPassword, avatar || null, dateOfBirth ]
+    );
+
+    return response.status(201).json({ message: 'User registered successfully' });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    return response.status(500).json({ message: 'Internal server error' });
+  }
+  
 });
 
 app.post( '/api/login', async ( request : Request, response : Response ) => {

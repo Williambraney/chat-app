@@ -12,7 +12,7 @@ interface RegisterRequest {
     userName: string;
     email: string;
     avatar?: string;
-    dateOfBirth?: Date | null;
+    dateOfBirth?: Date;
     password: string;
 }
 
