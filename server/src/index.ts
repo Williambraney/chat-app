@@ -124,7 +124,7 @@ app.post( '/api/login', async ( request : Request, response : Response ) => {
     }
 
     // Successful login
-    return response.status(200).json({ message: 'Login successful' });
+    return response.status(200).json({ message: 'Login successful', userName });
 
   } catch (error) {
     console.error('Login error:', error);

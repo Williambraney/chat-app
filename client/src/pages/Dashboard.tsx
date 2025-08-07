@@ -1,9 +1,12 @@
 import { Block, Blocks } from 'components/layout';
 import Header from 'components/ui/Header';
 import Text from 'components/ui/Text';
+import { useAuth } from '../contexts/AuthContext';
 import type { JSX } from 'react';
 
 export default function Dashboard(): JSX.Element {
+
+    const { userName } = useAuth();
 
     return (
         <Blocks
@@ -13,8 +16,17 @@ export default function Dashboard(): JSX.Element {
                 <Header>Dashboard</Header>
             </Block>
             <Block>
-                <Text> Hello </Text>
-                <Text>Welcome to your dashboard!</Text>
+                <Blocks
+                    direction = 'column'
+                >
+                    <Block>
+                        <Text> Hello { userName }! </Text>
+                    </Block>
+                    <Block>
+
+                        <Text>Welcome to your dashboard!</Text>
+                    </Block>
+                </Blocks>
             </Block>
         </Blocks>
     );

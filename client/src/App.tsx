@@ -11,6 +11,7 @@ import type { JSX } from 'react';
 import ResetPassword from './pages/ResetPassword.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import RootLayout from './routes/RootLayout.tsx';
+import { AuthProvider } from './contexts/AuthContext.tsx';
 
 const Router = createBrowserRouter([
     {
@@ -46,9 +47,11 @@ function App(): JSX.Element {
         <LocalizationProvider 
             dateAdapter = { AdapterDateFns }
         >
-            <RouterProvider 
-                router = { Router } 
-            />
+            <AuthProvider>
+                <RouterProvider 
+                    router = { Router } 
+                />
+            </AuthProvider>
         </LocalizationProvider>
     )
 }

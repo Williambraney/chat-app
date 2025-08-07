@@ -5,6 +5,7 @@ import Text from '../components/ui/Text';
 import TextField from '../components/ui/TextField';
 import { useCallback, useState, type ChangeEvent, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.tsx';
 
 interface LoginRequest {
     userName: string;
@@ -12,12 +13,15 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-    message: string;    
+    message: string;  
+    userName: string;  
 }
 
 export default function Login(): JSX.Element {
 
     const navigate = useNavigate();
+
+    const { onSetUser } = useAuth();
 
     const [ userName, setUserName ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
@@ -38,7 +42,8 @@ export default function Login(): JSX.Element {
             if (!res.ok) {
                 throw new Error(data.message || 'Login failed');
             }
-
+            onSetUser(data.userName);
+            localStorage.setItem('userName', data.userName);
             navigate( '/app/dashboard')
 
         } catch ( error ) {
@@ -49,7 +54,7 @@ export default function Login(): JSX.Element {
 
         }
 
-    }, [ userName, password, navigate ]);
+    }, [ userName, password, onSetUser, navigate ]);
 
     const handleUserNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
