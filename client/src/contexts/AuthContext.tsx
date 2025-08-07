@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import type { JSX, ReactNode } from 'react';
 
 interface User {
@@ -21,6 +21,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element
     const [ userName, setUserName ] = useState<string>('');
 
     const handleSetUser = ( userName: string ): void => setUserName( userName );
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem('userName');
+        if (storedUserName) {
+            setUserName(storedUserName);
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value = { { userName, onSetUser : handleSetUser } }>
