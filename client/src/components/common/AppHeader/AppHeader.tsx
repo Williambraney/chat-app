@@ -7,6 +7,8 @@ export default function AppHeader(): JSX.Element {
             sx = { {
                 fontSize : '1.5rem',
                 padding : '1rem',
+                position : 'absolute',
+                top : 0,
                 // width : '100%',
             } }
         >

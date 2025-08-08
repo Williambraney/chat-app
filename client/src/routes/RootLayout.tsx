@@ -16,11 +16,16 @@ export default function RootLayout(): JSX.Element {
                         flexDirection : 'column',
                         width : '90vw',
                         minHeight : '100vh',
-                        backgroundColor : 'background',
+                        backgroundColor : 'background'
                     } }
                 >
                     <AppHeader />
-                    <Block>
+                    <Block
+                        sx = { {
+                            width : '100%',
+                            height : '100%'
+                        } }
+                    >
                         <Outlet />
                     </Block>
                 </Blocks>

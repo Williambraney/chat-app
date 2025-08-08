@@ -1,17 +1,20 @@
-import { Box } from '@mui/material';
-import type { ReactNode } from 'react'
+import { Box, type SxProps, type Theme } from '@mui/material';
+import type { JSX, ReactNode } from 'react'
 
-type BlockProps = {
+interface BlockProps {
     children : ReactNode;
+    sx?: SxProps<Theme>; // ✅ Accepts any valid MUI sx style
 }
 
 export default function Block({
-    children
-}: BlockProps ) {
+    children,
+    sx
+}: BlockProps ): JSX.Element {
     return (
         <Box
-            style = { {
-                display : 'flex'
+            sx = { {
+                display : 'flex',
+                ...sx
             } }
         >
             { children }
