@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import { z } from 'zod';
 import pool from './db';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const server = http.createServer(app);
@@ -98,6 +99,8 @@ app.post( '/api/login', async ( request : Request, response : Response ) => {
 
   const result = LoginSchema.safeParse(request.body);
 
+  const JWT_SECRET = 'wills_secret;'; // Replace with your actual secret
+
   if (!result.success) {
     return response.status(400).json({ message: 'Invalid request body' });
   }
@@ -122,6 +125,17 @@ app.post( '/api/login', async ( request : Request, response : Response ) => {
     if (!isMatch) {
       return response.status(401).json({ message: 'Invalid password' });
     }
+
+    const token = jwt.sign({ userName: user.userName }, JWT_SECRET, {
+      expiresIn: '2h'
+    })
+
+    response.cookie( 'token', token, {
+      httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'lax', // THis helps prevent CSRF attacks
+      maxAge: 2 * 60 * 60 * 1000 // 2 hours
+    });
 
     // Successful login
     return response.status(200).json({ message: 'Login successful', userName });
