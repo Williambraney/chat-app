@@ -13,8 +13,9 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-    message: string;  
-    userName: string;  
+    message: string;
+    userName: string;
+    token: string;
 }
 
 export default function Login(): JSX.Element {
@@ -33,17 +34,24 @@ export default function Login(): JSX.Element {
             const res = await fetch('/api/login', {
                 method : 'POST',
                 headers : {
-                    'Content-Type' : 'application/json',
+                    'Content-Type' : 'application/json'
                 },
                 body : JSON.stringify({ userName, password } as LoginRequest )
             });
-            const data: LoginResponse = await res.json();
+            const data : LoginResponse = await res.json();
 
             if (!res.ok) {
                 throw new Error(data.message || 'Login failed');
             }
+
             onSetUser(data.userName);
             localStorage.setItem('userName', data.userName);
+
+            if (!data.token) {
+                throw new Error('No token received');
+            }
+            localStorage.setItem('token', data.token);
+
             navigate( '/app/dashboard')
 
         } catch ( error ) {

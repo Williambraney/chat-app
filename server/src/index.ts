@@ -1,4 +1,13 @@
 import express, { Request, Response } from 'express';
+
+// Extend Express Request type to include userName
+declare global {
+  namespace Express {
+    interface Request {
+      userName?: string;
+    }
+  }
+}
 import http from 'http';
 import bcrypt from 'bcrypt';
 import { Server } from 'socket.io';
@@ -6,6 +15,10 @@ import cors from 'cors';
 import { z } from 'zod';
 import pool from './db';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+import { authenticationToken } from './middleware/authenticationToken';
+
+dotenv.config(); // This loads environment variables from .env file
 
 const app = express();
 const server = http.createServer(app);
@@ -95,11 +108,23 @@ app.post( '/api/register', async( request : Request, response : Response ) => {
   
 });
 
-app.post( '/api/login', async ( request : Request, response : Response ) => {
+app.get( '/api/me', authenticationToken, ( request : Request, response : Response ) => {
+
+  const { userName } = request;
+
+  return response.status(200).json({ userName });
+
+});
+
+app.post( '/api/login',  async ( request : Request, response : Response ) => {
 
   const result = LoginSchema.safeParse(request.body);
 
-  const JWT_SECRET = 'wills_secret;'; // Replace with your actual secret
+  const JWT_SECRET = process.env.JWT_SECRET; // This is your JWT secret that comes from .env
+
+  if( !JWT_SECRET ){
+    return response.status(500).json({ message: 'JWT secret is not configured on the server.' });
+  }
 
   if (!result.success) {
     return response.status(400).json({ message: 'Invalid request body' });
@@ -126,19 +151,12 @@ app.post( '/api/login', async ( request : Request, response : Response ) => {
       return response.status(401).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ userName: user.userName }, JWT_SECRET, {
-      expiresIn: '2h'
+    const token = jwt.sign({ userName }, JWT_SECRET, {
+      expiresIn: '1h'
     })
 
-    response.cookie( 'token', token, {
-      httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      sameSite: 'lax', // THis helps prevent CSRF attacks
-      maxAge: 2 * 60 * 60 * 1000 // 2 hours
-    });
-
     // Successful login
-    return response.status(200).json({ message: 'Login successful', userName });
+    return response.status(200).json({ message: 'Login successful', userName, token });
 
   } catch (error) {
     console.error('Login error:', error);
