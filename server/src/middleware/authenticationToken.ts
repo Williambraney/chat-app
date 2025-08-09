@@ -17,7 +17,7 @@ export function authenticationToken( req: Request, res: Response, next: NextFunc
 
     const authHeader = req.headers['authorization'];
 
-    const token = ( typeof authHeader === 'string' && authHeader.startsWith('Bearer ') ) ? authHeader.split( '' )[1] : undefined;
+    const token = ( typeof authHeader === 'string' && authHeader.startsWith('Bearer ') ) ? authHeader.split( ' ' )[1] : undefined;
 
     if( !JWT_SECRET ){
         return res.status(500).json({ message: 'JWT secret is not configured on the server.' });
@@ -29,8 +29,12 @@ export function authenticationToken( req: Request, res: Response, next: NextFunc
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        req.userName = decoded.userName;
-        next();
+        if (typeof decoded === 'object' && decoded !== null && 'userName' in decoded) {
+            req.userName = (decoded as jwt.JwtPayload).userName as string;
+            next();
+        } else {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
     } catch (error) {
         console.error('Authentication error:', error);
         return res.status(401).json({ message: 'Unauthorized' });

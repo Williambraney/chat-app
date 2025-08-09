@@ -1,4 +1,5 @@
-import express, { Request, Response } from 'express';
+import dotenv from 'dotenv'
+dotenv.config(); // This loads environment variables from .env file
 
 // Extend Express Request type to include userName
 declare global {
@@ -8,6 +9,7 @@ declare global {
     }
   }
 }
+import express, { Request, Response } from 'express';
 import http from 'http';
 import bcrypt from 'bcrypt';
 import { Server } from 'socket.io';
@@ -15,10 +17,8 @@ import cors from 'cors';
 import { z } from 'zod';
 import pool from './db';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv'
 import { authenticationToken } from './middleware/authenticationToken';
 
-dotenv.config(); // This loads environment variables from .env file
 
 const app = express();
 const server = http.createServer(app);
@@ -126,7 +126,7 @@ app.post( '/api/login',  async ( request : Request, response : Response ) => {
     return response.status(500).json({ message: 'JWT secret is not configured on the server.' });
   }
 
-  if (!result.success) {
+    if (!result.success) {
     return response.status(400).json({ message: 'Invalid request body' });
   }
 
