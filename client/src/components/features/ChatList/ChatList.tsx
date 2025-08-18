@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import ChatListItem, { type ChatListItemProps } from './ChatListItem';
 import { Blocks } from 'components/layout';
+import { List } from 'components/ui/List';
 
 
 const dummyChats: ChatListItemProps[] = [
@@ -32,8 +33,7 @@ const dummyChats: ChatListItemProps[] = [
 
 export default function ChatList(): JSX.Element {
     return (
-        <Blocks
-            direction = 'column'
+        <List
             sx = { {
                 border : '1px solid black',
             } }
@@ -50,6 +50,6 @@ export default function ChatList(): JSX.Element {
                     />
                 )
             }
-        </Blocks>
+        </List>
     );
 }

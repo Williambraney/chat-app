@@ -1,7 +1,9 @@
 import { Block, Blocks } from 'components/layout';
 import Avatar from 'components/ui/Avatar';
+import { ListItemButton } from 'components/ui/List';
 import SubHeader from 'components/ui/SubHeader';
-import type { JSX } from 'react';
+import { useCallback, type JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface ChatListItemProps {
     id: string;
@@ -18,8 +20,13 @@ export default function ChatListItem({
     avatar,
     timestamp 
 }: ChatListItemProps ): JSX.Element  {
+
+    const navigate = useNavigate();
+
+    const handleClick = useCallback(() => navigate( 'chat/' + id ), [ id, navigate ] );
+
     return (
-        <Block
+        <ListItemButton
             sx = { {
                 borderBottom : '1px solid lightgray',
                 padding : '1rem',
@@ -28,7 +35,7 @@ export default function ChatListItem({
                     cursor : 'pointer'
                 }
             } }
-            onClick = { () => console.log( `Clicked on chat ${ id }` ) }  
+            onClick = { handleClick }  
         >
             <Blocks
                 direction = 'column'
@@ -51,6 +58,6 @@ export default function ChatListItem({
                     { content }
                 </Block>
             </Blocks>
-        </Block>
+        </ListItemButton>
     );
 };
