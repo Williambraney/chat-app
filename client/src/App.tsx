@@ -38,6 +38,7 @@ const Router = createBrowserRouter([
             { path : 'settings', element : <Settings /> },
             { path : 'chats', element : <Chats /> },
             { path : 'starred', element : <Starred /> },
+            { path : 'chats/:chatID', element : <Chats /> } // This will render the Chat component
         ]
     }
 ]);

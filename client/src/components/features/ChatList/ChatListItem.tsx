@@ -23,7 +23,7 @@ export default function ChatListItem({
 
     const navigate = useNavigate();
 
-    const handleClick = useCallback(() => navigate( 'chat/' + id ), [ id, navigate ] );
+    const handleClick = useCallback((): void => { navigate(`/app/chats/${id}`); }, [ id, navigate ]);
 
     return (
         <ListItemButton
