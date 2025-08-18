@@ -11,8 +11,14 @@ export default function Chat(): JSX.Element {
     return (
         <Blocks
             direction = 'column'
+            sx = { {
+                border : '1px solid lightgray',
+                width : '100%',
+            } }
         >
-            <Block>
+            <Block
+                fit = { true }
+            >
                 <ChatHistory />
             </Block>
             <Block>

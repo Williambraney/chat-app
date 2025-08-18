@@ -9,13 +9,16 @@ export default function Chats(): JSX.Element {
     return (
         <Blocks
             sx = { {
-                // width : '100vw'
+                width : '100%'
             } }
         >
             <Block
                 sx = { {
                     alignItems : 'start',
-                    height : '100%'
+                    height : '100%',
+                    width : 'fit-content',
+                    border : '1px solid lightgray',
+                    padding : '8px'
                 } }
             >
                 <Blocks
@@ -29,17 +32,16 @@ export default function Chats(): JSX.Element {
                         </SubHeader>
                     </Block>
                     <Block>
-                        <Blocks
-                            direction = 'row'
-                        >
-                            <Block>
-                                <ChatList />
-                            </Block>
-                        </Blocks>
+                        <ChatList />
                     </Block>
                 </Blocks>
             </Block>
-            <Block>
+            <Block
+                sx = { {
+                    border : '1px solid red',
+                    width : '100%'
+                } }
+            >
                 <Chat />
             </Block>
         </Blocks>

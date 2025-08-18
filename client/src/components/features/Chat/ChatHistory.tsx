@@ -20,6 +20,10 @@ export default function ChatHistory(): JSX.Element {
     return (
         <Blocks
             direction = 'column'
+            sx = { {
+                marginTop : '50px',
+                width : '100%'
+            } }
         >
             { DummyChatHistory.map(chat => (
                 <ChatMessage
