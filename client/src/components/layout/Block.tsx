@@ -16,8 +16,8 @@ export default function Block({
         <Box
             sx = { {
                 display : 'flex',
-                height: !fit && '100%',
-                width: !fit && '100%',
+                height : !fit && '100%',
+                width : !fit && '100%',
                 ...sx
             } }
         >

@@ -1,16 +1,22 @@
-import { Block, Blocks } from "components/layout";
+import { Block, Blocks } from 'components/layout';
+import type { JSX } from 'react/jsx-runtime';
+import ChatHistory from './ChatHistory';
+import ChatCompose from './ChatCompose';
+import { useParams } from 'react-router-dom';
 
-export default function Chat() {
+export default function Chat(): JSX.Element {
 
-    // const chatID = useParams()
+    const { chatID } = useParams();
 
     return (
-        <Blocks>
+        <Blocks
+            direction = 'column'
+        >
             <Block>
-            <ChatHistory />
+                <ChatHistory />
             </Block>
             <Block>
-            <ChatCompose />
+                <ChatCompose />
             </Block>
         </Blocks>
     );

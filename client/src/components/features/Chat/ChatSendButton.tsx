@@ -1,5 +1,5 @@
-import Button from "components/ui/Button";
-import { useCallback, type JSX } from "react";
+import Button from 'components/ui/Button';
+import { useCallback, type JSX } from 'react';
 
 export default function ChatSendButton(): JSX.Element {
 

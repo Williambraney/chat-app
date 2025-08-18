@@ -1,9 +1,11 @@
+import Chat from 'components/features/Chat/Chat';
 import ChatList from 'components/features/ChatList/ChatList';
 import { Block, Blocks } from 'components/layout';
 import SubHeader from 'components/ui/SubHeader';
 import type { JSX } from 'react';
 
 export default function Chats(): JSX.Element {
+
     return (
         <Blocks
             sx = { {
@@ -11,10 +13,10 @@ export default function Chats(): JSX.Element {
             } }
         >
             <Block
-                sx = {{
-                    alignItems: 'start',
-                    height: '100%'
-                }}
+                sx = { {
+                    alignItems : 'start',
+                    height : '100%'
+                } }
             >
                 <Blocks
                     direction = 'column'
@@ -38,7 +40,7 @@ export default function Chats(): JSX.Element {
                 </Blocks>
             </Block>
             <Block>
-                Here is you chat content
+                <Chat />
             </Block>
         </Blocks>
     );

@@ -1,17 +1,22 @@
-import { Block } from "components/layout";
-import type { JSX } from "react/jsx-runtime";
+import { Block } from 'components/layout';
+import type { JSX } from 'react/jsx-runtime';
 
-type ChatMessageProps =  {
+interface ChatMessageProps {
     isSender: boolean;
     message: string;
-    timestamp: string;
+    timestamp?: string;
 } 
 
-export default function ChatMessage({ isSender, message, timestamp }: ChatMessageProps): JSX.Element {
+export default function ChatMessage({ 
+    isSender, 
+    message, 
+    timestamp
+}: ChatMessageProps): JSX.Element {
 
     return (
         <Block>
-
+            <p>{ message }</p>
+            <span>{ timestamp }</span>
         </Block>
     )
 }

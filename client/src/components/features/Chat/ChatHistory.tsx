@@ -18,9 +18,11 @@ const DummyChatHistory = [
 export default function ChatHistory(): JSX.Element {
 
     return (
-        <Blocks>
+        <Blocks
+            direction = 'column'
+        >
             { DummyChatHistory.map(chat => (
-                <ChatMessage 
+                <ChatMessage
                     key = { chat.id }
                     isSender = { chat.isSender }
                     message = { chat.message }
