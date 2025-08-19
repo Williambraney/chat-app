@@ -17,7 +17,6 @@ export default function Chats(): JSX.Element {
                     alignItems : 'start',
                     height : '100%',
                     width : 'fit-content',
-                    border : '1px solid lightgray',
                     padding : '8px'
                 } }
             >
@@ -38,7 +37,6 @@ export default function Chats(): JSX.Element {
             </Block>
             <Block
                 sx = { {
-                    border : '1px solid red',
                     width : '100%'
                 } }
             >

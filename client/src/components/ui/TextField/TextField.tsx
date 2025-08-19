@@ -1,7 +1,7 @@
 import { TextField as MUITextField } from '@mui/material';
-import type { ChangeEvent, CSSProperties } from 'react';
+import type { ChangeEvent, CSSProperties, JSX } from 'react';
 
-type TextFieldProps = {
+interface TextFieldProps {
     label: string;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -13,18 +13,18 @@ export default function TextField({
     value,
     onChange,
     sx
-}: TextFieldProps ){
+}: TextFieldProps ): JSX.Element {
 
     return (
         <MUITextField 
             label = { label }
             value = { value }
             onChange = { onChange }
-            sx = {{
-                backgroundColor :  '#F0FFF4',
+            sx = { {
+                backgroundColor : '#F0FFF4',
                 borderRadius : '4px',
                 ...sx
-            }}
+            } }
         />
     )
 };

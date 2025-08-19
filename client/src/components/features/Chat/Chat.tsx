@@ -12,7 +12,6 @@ export default function Chat(): JSX.Element {
         <Blocks
             direction = 'column'
             sx = { {
-                border : '1px solid lightgray',
                 width : '100%',
             } }
         >

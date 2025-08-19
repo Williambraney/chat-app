@@ -23,8 +23,10 @@ export default function Dashboard(): JSX.Element {
                         <Text> Hello { userName }! </Text>
                     </Block>
                     <Block>
-
                         <Text>Welcome to your dashboard!</Text>
+                    </Block>
+                    <Block>
+                        <Text>Here are a list of people to message.</Text>
                     </Block>
                 </Blocks>
             </Block>
